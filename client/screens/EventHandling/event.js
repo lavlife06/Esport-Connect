@@ -30,13 +30,6 @@ const Event = ({ navigation }) => {
   } else {
     return (
       <View>
-        {myevents && (
-          <FlatList
-            data={myevents}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <Events item={[item]} />}
-          />
-        )}
         <Modal
           style={styles.overlay}
           isVisible={modalOpen}
@@ -57,7 +50,14 @@ const Event = ({ navigation }) => {
             </ScrollView>
           </TouchableWithoutFeedback>
         </Modal>
-        <Button title="Add Event" onPress={() => setModalOpen(true)} />
+        <Button title="Add Event" buttonStyle={{margin: 20}} onPress={() => setModalOpen(true)} />
+        {myevents && (
+          <FlatList
+            data={myevents}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <Events item={[item]} />}
+          />
+        )}
       </View>
     );
   }

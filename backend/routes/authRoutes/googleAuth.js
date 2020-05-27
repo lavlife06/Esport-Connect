@@ -18,7 +18,7 @@ module.exports = (app) => {
           },
         };
 
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, keys.jwtSecret, { expiresIn: "40d" }, (err, token) => {
           if (err) throw err;
           res.json({ token });
         });
@@ -36,7 +36,7 @@ module.exports = (app) => {
           },
         };
         // 25200 means 7 hours one user can be online with the given token
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, keys.jwtSecret, { expiresIn: "40d" }, (err, token) => {
           if (err) throw err;
           res.json({ token });
         });

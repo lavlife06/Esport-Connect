@@ -56,7 +56,7 @@ module.exports = (app) => {
           },
         };
 
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, keys.jwtSecret, { expiresIn: "40d" }, (err, token) => {
           if (err) throw err;
           res.json({ token });
         });
