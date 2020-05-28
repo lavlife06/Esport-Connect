@@ -122,11 +122,12 @@ export const login = (email, password) => async (dispatch) => {
 
     const token = await AsyncStorage.getItem('token');
 
-    if (token !== null) {
-      try {
-        dispatch(getCurrentProfile());
-      } catch {}
-    }
+    // if (token !== null) {
+    //   try {
+    //     dispatch(getCurrentProfile());
+    //   } catch {}
+    // }
+    dispatch(getCurrentProfile());
     console.log('logged in succesfull......');
     dispatch(loading(false));
   } catch (err) {
