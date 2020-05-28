@@ -1,41 +1,46 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const eventsSchema = new Schema({
+  myevents: {
+    game: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
+    eventdate: {
+      from: Date,
+      to: Date,
+      hours: String,
+    },
+    prizepool: Number,
+    teamsize: Number,
+    title: String,
+    gamelink: String,
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+});
+
 const profileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
   DOB: Date,
-  myevents: [
-    {
-      game: {
-        type: String,
-        required: true,
-      },
-      description: {
-        type: String,
-        required: true,
-      },
-      image: {
-        data: Buffer,
-        contentType: String,
-      },
-      eventdate: {
-        from: Date,
-        to: Date,
-        hours: String,
-      },
-      prizepool: Number,
-      teamsize: Number,
-      title: String,
-      gamelink: String,
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+  myevents: {
+    type: [eventsSchema],
+    default: [],
+  },
   // tag: {
   //   type: String,
   // },

@@ -18,10 +18,14 @@ module.exports = (app) => {
           },
         };
 
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        });
+        jwt.sign(
+          payload,
+          keys.jwtSecret,
+          /* { expiresIn: 3600 }, */ (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+          }
+        );
       } else {
         let newUser = new User({
           name,

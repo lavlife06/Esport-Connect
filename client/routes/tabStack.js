@@ -3,14 +3,16 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/home';
-import Profile from '../screens/profile';
+import Profile from '../screens/Profilehandling/profile';
 import Event from '../screens/EventHandling/event';
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import EventStack from './otherStack/eventStack';
 import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
+import SearchStack from './otherStack/searchStack';
 import DrawerStack from './drawerStack';
 import { Icon } from 'react-native-elements';
 const Tab = createBottomTabNavigator();
@@ -20,6 +22,14 @@ export default function TabStack() {
     if (route.name === 'Home') {
       return (
         <AntDesign name="home" size={24} color={focused ? '#4ecca3' : 'gray'} />
+      );
+    } else if (route.name === 'Search') {
+      return (
+        <FontAwesome
+          name="search"
+          size={24}
+          color={focused ? '#4ecca3' : 'gray'}
+        />
       );
     } else if (route.name === 'Profile') {
       return (
@@ -53,6 +63,7 @@ export default function TabStack() {
       }}
     >
       <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Search" component={SearchStack} />
       <Tab.Screen name="Event" component={EventStack} />
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>

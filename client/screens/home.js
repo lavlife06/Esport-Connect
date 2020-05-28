@@ -20,7 +20,7 @@ const Home = () => {
       const token = await AsyncStorage.getItem('token');
       setAuthToken(token);
       // dispatch(loadUser());
-      if (token) {
+      if (token !== null) {
         dispatch(fetchallevents());
         console.log('token verified by fetchallevents');
       }

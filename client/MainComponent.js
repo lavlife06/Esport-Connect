@@ -15,10 +15,10 @@ import Loading from './shared/loading';
 import { fetchallevents } from './Redux/actions/event';
 
 const MainComponent = () => {
-  const dispatch = useDispatch()
-  const {auth, loading} = useSelector(state => ({
+  const dispatch = useDispatch();
+  const { auth, loading } = useSelector((state) => ({
     auth: state.auth,
-    loading: state.loading
+    loading: state.loading,
   }));
   const isAuthenticated = auth.isAuthenticated;
   const [isReady, setIsReady] = useState(true);
@@ -28,7 +28,7 @@ const MainComponent = () => {
       const token = await AsyncStorage.getItem('token');
       setAuthToken(token);
       dispatch(loadUser());
-      if (token) {
+      if (token !== null) {
         dispatch(fetchallevents());
       }
       console.log('App refreshed');
@@ -44,15 +44,12 @@ const MainComponent = () => {
         <View style={globalStyles.container}>
           <Alert />
           {loading ? (
-            <Loading/>
+            <Loading />
+          ) : !isAuthenticated ? (
+            <AuthStack />
           ) : (
-            !isAuthenticated ? (
-              <AuthStack/>
-            ): (
-              <DrawerStack/>
-            )
-          )
-          }
+            <DrawerStack />
+          )}
         </View>
       </ThemeProvider>
     );

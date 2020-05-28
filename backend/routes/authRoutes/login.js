@@ -54,15 +54,18 @@ module.exports = (app) => {
           },
         };
         // 25200 means 7 hours one user can be online with the given token
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        });
+        jwt.sign(
+          payload,
+          keys.jwtSecret,
+          /* { expiresIn: 3600 },*/ (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+          }
+        );
       } catch (err) {
         res.status(500).send('Server Error');
         console.error('login error server: ', err.message);
       }
     }
   );
-
 };

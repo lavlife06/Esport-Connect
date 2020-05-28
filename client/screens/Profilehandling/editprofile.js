@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProfile, getCurrentProfile } from '../Redux/actions/profile';
-import Loading from '../shared/loading';
+import { createProfile, getCurrentProfile } from '../../Redux/actions/profile';
+import Loading from '../../shared/loading';
 import { Button, Input } from 'react-native-elements';
 
 const profileSchema = yup.object({
@@ -13,7 +13,7 @@ const profileSchema = yup.object({
   gameinterest: yup.string(),
 });
 
-const Editprofile = ({setModalOpen}) => {
+const Editprofile = ({ setModalOpen }) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
   const loading = myprofileinfo.loading;
@@ -29,16 +29,14 @@ const Editprofile = ({setModalOpen}) => {
     return <Loading />;
   } else {
     return (
-      <View
-        style={styles.content}
-      >
+      <View style={styles.content}>
         <Formik
           initialValues={{ name, bio }}
           validationSchema={profileSchema}
           onSubmit={(values) => {
             dispatch(createProfile(values));
             // values here is an object containing form data
-            setModalOpen(false)
+            setModalOpen(false);
           }}
         >
           {(formikprops) => (
@@ -49,7 +47,9 @@ const Editprofile = ({setModalOpen}) => {
                 onChangeText={formikprops.handleChange('name')}
                 value={formikprops.values.name}
                 onBlur={formikprops.handleBlur('name')}
-                errorMessage={formikprops.touched.name && formikprops.errors.name}
+                errorMessage={
+                  formikprops.touched.name && formikprops.errors.name
+                }
               />
               <Input
                 style={styles.input}
@@ -60,7 +60,7 @@ const Editprofile = ({setModalOpen}) => {
                 onBlur={formikprops.handleBlur('bio')}
                 errorMessage={formikprops.touched.bio && formikprops.errors.bio}
               />
-              
+
               <Button onPress={formikprops.handleSubmit} title="Save" />
             </View>
           )}
@@ -71,14 +71,13 @@ const Editprofile = ({setModalOpen}) => {
 };
 
 const styles = StyleSheet.create({
-
   content: {
     backgroundColor: 'white',
     padding: 22,
-    borderTopStartRadius:30,
+    borderTopStartRadius: 30,
     borderTopEndRadius: 30,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-  }
+  },
 });
 
 export default Editprofile;

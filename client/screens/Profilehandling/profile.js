@@ -8,12 +8,11 @@ import {
 } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import Editprofile from './editprofile';
+import Editprofile from '../Profilehandling/editprofile';
 import Modal from 'react-native-modal';
 import { ScrollView } from 'react-native-gesture-handler';
-import { addmyevent } from '../Redux/actions/event';
-import Loading from '../shared/loading';
-import { getCurrentProfile } from '../Redux/actions/profile';
+import Loading from '../../shared/loading';
+import { getCurrentProfile } from '../../Redux/actions/profile';
 
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ const Profile = ({ navigation }) => {
   if (loading) {
     return <Loading />;
   } else {
-  return (
+    return (
       <View
         style={{
           padding: 10,
@@ -43,22 +42,21 @@ const Profile = ({ navigation }) => {
           height: '100%',
         }}
       >
-
         <Modal
           style={styles.overlay}
           isVisible={modalOpen}
           backdropColor="#3e3f42"
-          animationIn='fadeInUp'
-          animationOut='fadeOutDown'
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
           animationInTiming={200}
           animationOutTiming={200}
           backdropTransitionInTiming={400}
           backdropTransitionOutTiming={400}
-          onBackButtonPress={()=>setModalOpen(false)}
+          onBackButtonPress={() => setModalOpen(false)}
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always'>
-              <Editprofile setModalOpen={setModalOpen}/>
+            <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="always">
+              <Editprofile setModalOpen={setModalOpen} />
             </ScrollView>
           </TouchableWithoutFeedback>
         </Modal>
@@ -126,10 +124,10 @@ const Profile = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  overlay:{
+  overlay: {
     backgroundColor: 'white',
     margin: 0, // This is the important style you need to set
   },
-})
+});
 
 export default Profile;
