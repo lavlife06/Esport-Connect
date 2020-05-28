@@ -6,7 +6,7 @@ import { login } from '../../Redux/actions/auth';
 import { globalStyles } from '../../styles/global';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import SignUp from './signup';
 import GoogleSignin from './GoogleSigin';
 import Loading from '../../shared/loading';

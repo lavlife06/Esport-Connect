@@ -26,6 +26,15 @@ module.exports = (app) => {
             res.json({ token });
           }
         );
+        jwt.sign(
+          payload,
+          keys.jwtSecret,
+          { expiresIn: '40d' },
+          (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+          }
+        );
       } else {
         let newUser = new User({
           name,
@@ -40,10 +49,15 @@ module.exports = (app) => {
           },
         };
         // 25200 means 7 hours one user can be online with the given token
-        jwt.sign(payload, keys.jwtSecret, { expiresIn: 3600 }, (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        });
+        jwt.sign(
+          payload,
+          keys.jwtSecret,
+          { expiresIn: '40d' },
+          (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+          }
+        );
 
         console.log('user from google added');
       }

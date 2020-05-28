@@ -64,6 +64,15 @@ module.exports = (app) => {
             res.json({ token });
           }
         );
+        jwt.sign(
+          payload,
+          keys.jwtSecret,
+          { expiresIn: '40d' },
+          (err, token) => {
+            if (err) throw err;
+            res.json({ token });
+          }
+        );
       } catch (err) {
         res.status(500).send('Server Error');
         console.error('login error server: ', err.message);
