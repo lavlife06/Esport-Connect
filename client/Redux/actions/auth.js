@@ -77,9 +77,9 @@ export const register = (name, email, password) => async (dispatch) => {
 
     console.log('register succes');
 
-    dispatch(createProfile({ name }));
-
     dispatch(loadUser());
+
+    dispatch(createProfile({ name }));
 
     dispatch(loading(false));
   } catch (err) {
@@ -120,13 +120,17 @@ export const login = (email, password) => async (dispatch) => {
       payload: res.data,
     });
 
-    const token = await AsyncStorage.getItem('token');
+    // const token = await AsyncStorage.getItem('token');
 
     // if (token !== null) {
     //   try {
     //     dispatch(getCurrentProfile());
     //   } catch {}
     // }
+
+    dispatch(loadUser());
+    // Userloaded jaruri hai iske bina header mai token save nahi hongi isliye getmyprofile mai error aa rahi hai
+
     dispatch(getCurrentProfile());
     console.log('logged in succesfull......');
     dispatch(loading(false));
