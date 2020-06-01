@@ -1,10 +1,6 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/home';
-import Profile from '../screens/Profilehandling/profile';
-import Event from '../screens/EventHandling/event';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -13,9 +9,8 @@ import EventStack from './otherStack/eventStack';
 import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
-import DrawerStack from './drawerStack';
-import { Icon } from 'react-native-elements';
-const Tab = createBottomTabNavigator();
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function TabStack() {
   const showTabIcons = (route, focused, color, size) => {
@@ -57,6 +52,8 @@ export default function TabStack() {
         tabBarIcon: ({ focused, color, size }) =>
           showTabIcons(route, focused, color, size),
       })}
+      activeColor="#4ecca3"
+      barStyle={{ backgroundColor: '#fff' }}
       tabBarOptions={{
         activeTintColor: '#4ecca3',
         inactiveTintColor: 'gray',
