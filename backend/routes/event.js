@@ -63,6 +63,8 @@ module.exports = (app) => {
 
         let eventsuccess = await event.save();
 
+        console.log(eventsuccess);
+
         if (!eventsuccess) {
           return res.json({
             errors: [{ msg: 'Sorry ur event was not posted' }],
@@ -70,6 +72,8 @@ module.exports = (app) => {
         }
 
         let profile = await Profile.findOne({ user: req.user.id });
+
+        console.log(profile);
 
         profile.myevents.push(event);
 
@@ -84,7 +88,7 @@ module.exports = (app) => {
         res.json(profile.myevents);
       } catch (err) {
         res.status(500).send('Server Error');
-        // console.error(err.message);
+        console.error(err.message);
       }
     }
   );

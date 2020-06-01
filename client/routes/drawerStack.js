@@ -20,7 +20,7 @@ const Drawer = createDrawerNavigator();
 const LogoutContentComponent = (props) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.loading;
+  const loading = myprofileinfo.myprofileloading;
 
   return (
     <DrawerContentScrollView {...props}>
