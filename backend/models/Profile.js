@@ -38,6 +38,10 @@ const profileSchema = new Schema({
   ],
   myposts: [
     {
+      postid: {
+        type: String,
+        default: '',
+      },
       user: {
         type: Schema.Types.ObjectId,
         ref: 'users',

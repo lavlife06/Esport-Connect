@@ -7,35 +7,6 @@ const Profile = require('../../models/Profile');
 const Post = require('../../models/Post');
 
 module.exports = (app) => {
-  // @route    POST api/posts/setuppostinfo
-  // @desc     Create a postinfo
-  // @access   Private
-  // app.post('/setuppostinfo', verify, async (req, res) => {
-  //   const user = await User.findOneAndUpdate(
-  //     { _id: req.user.id },
-  //     { setuppostinfo: true }
-  //   );
-  //   // const user = User.findOne({ user: req.user.id });
-  //   try {
-  //     if (user) {
-  //       const postinfo = new Postinfo({
-  //         user: req.user.id,
-  //         name: user.name,
-  //         tag: user.tag,
-  //       });
-  //       await postinfo.save();
-  //       // user.setuppostinfo = true;
-  //       // user.save();
-  //       return res.json({ msg: 'postinfo setup successfull' });
-  //     } else {
-  //       return res.status(404).json({ msg: 'User not found' });
-  //     }
-  //   } catch (err) {
-  //     res.status(500).send('Server Error');
-  //     console.error(err.message);
-  //   }
-  // });
-
   // @route    POST api/posts/mypost
   // @desc     Create a post
   // @access   Private
@@ -76,7 +47,15 @@ module.exports = (app) => {
           });
         }
 
-        myprofile.myposts.push(post);
+        console.log(postsuccess);
+        console.log(post);
+
+        myprofile.myposts.push({
+          user: req.user.id,
+          name: myprofile.name,
+          text: req.body.text,
+          postid: postsuccess.id,
+        });
 
         await myprofile.save();
 
@@ -176,4 +155,63 @@ module.exports = (app) => {
       res.status(500).send('Server Error');
     }
   });
+
+  // @route    PUT api/posts/like/:id
+  // @desc     Like a post
+  // @access   Private
+  app.put(
+    '/api/post/likehandling/:user_id/:post_id',
+    verify,
+    async (req, res) => {
+      try {
+        let post = await Post.findById(req.params.post_id);
+        let user = await User.findById(req.user.id).select('-password');
+        let userprofile = await Profile.findOne({ user: req.params.user_id });
+        //  Userprofile is the profile of the user whose post we are giving likes
+
+        // Getting the index of the post to add likes to that exact post
+        const postIndex = userprofile.myposts.findIndex(
+          (item) => item.postid === req.params.post_id
+        );
+
+        // Check if the post has already been liked
+        if (
+          post.likes.filter((like) => like.user.toString() === req.user.id)
+            .length > 0
+        ) {
+          post.likes = post.likes.filter((like) => {
+            like.user.toString() !== req.user.id;
+          });
+
+          // Save in our global post
+          await post.save();
+
+          // // Save in our profile
+          userprofile.myposts[postIndex].likes = post.likes;
+          await userprofile.save();
+
+          return res.json(post.likes);
+        }
+
+        // else
+        post.likes.push({ user: req.user.id, name: user.name });
+
+        userprofile.myposts[postIndex].likes.push({
+          user: req.user.id,
+          name: user.name,
+        });
+
+        // Save in global post
+        await post.save();
+
+        // // Save in our profile
+        await userprofile.save();
+
+        res.json(post.likes);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
+  );
 };
