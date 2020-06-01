@@ -15,7 +15,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const eventinfo = useSelector((state) => state.event);
   const allevents = eventinfo.allevents;
-  let loading = eventinfo.loading;
+  let loading = eventinfo.alleventsloading;
 
   useEffect(() => {
     const userLoad = async () => {

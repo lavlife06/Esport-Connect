@@ -17,7 +17,7 @@ import { getCurrentProfile } from '../../Redux/actions/profile';
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.loading;
+  const loading = myprofileinfo.myprofileloading;
   const { followers, following, bio, name, myevents } = myprofileinfo.myprofile;
 
   // Setting the visibility of Modal

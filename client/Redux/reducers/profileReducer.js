@@ -18,6 +18,7 @@ const initialState = {
   particularuser: null,
   profiles: [],
   loading: true,
+  myprofileloading: true,
   error: null,
 };
 
@@ -31,7 +32,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         myprofile: payload,
-        loading: false,
+        myprofileloading: false,
       };
     case GET_PROFILES:
       console.log('GETPROFILES-SUCCESSFULL');

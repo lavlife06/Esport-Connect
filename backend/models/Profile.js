@@ -1,46 +1,102 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventsSchema = new Schema({
-  myevents: {
-    game: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    image: {
-      data: Buffer,
-      contentType: String,
-    },
-    eventdate: {
-      from: Date,
-      to: Date,
-      hours: String,
-    },
-    prizepool: Number,
-    teamsize: Number,
-    title: String,
-    gamelink: String,
-    date: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-});
-
 const profileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
   DOB: Date,
-  myevents: {
-    type: [eventsSchema],
-    default: [],
-  },
+  myevents: [
+    {
+      game: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+      image: {
+        data: Buffer,
+        contentType: String,
+      },
+      eventdate: {
+        from: Date,
+        to: Date,
+        hours: String,
+      },
+      prizepool: Number,
+      teamsize: Number,
+      title: String,
+      gamelink: String,
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  myposts: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+      text: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+      },
+      tag: {
+        type: String,
+      },
+      // avatar: {
+      //   type: String,
+      // },
+      likes: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: 'users',
+          },
+          name: {
+            type: String,
+          },
+        },
+      ],
+      comments: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: 'users',
+          },
+          text: {
+            type: String,
+            required: true,
+          },
+          name: {
+            type: String,
+          },
+          // tag: {
+          //   type: String,
+          // },
+          // avatar: {
+          //   type: String,
+          // },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   // tag: {
   //   type: String,
   // },

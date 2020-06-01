@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View>
-        <GoogleSignin title='Sign In With Google' navigation={navigation}/>
+        <GoogleSignin title="Sign In With Google" navigation={navigation} />
         <SignUp
           visible={visible}
           setVisible={setVisible}
@@ -40,7 +40,7 @@ const Login = ({ navigation }) => {
           validationSchema={LoginSchema}
           onSubmit={async ({ email, password }) => {
             dispatch(login(email.toLowerCase(), password));
-            if (isAuthenticated) navigation.navigate('Home');
+            // if (isAuthenticated) navigation.navigate('Home');
           }}
         >
           {(props) => (
@@ -73,10 +73,13 @@ const Login = ({ navigation }) => {
             </View>
           )}
         </Formik>
-        <View style={{ flexDirection: 'row', justifyContent:'center' }}>
-          <Text style={{fontSize: 20}}>Don't have an account?</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Text style={{ fontSize: 20 }}>Don't have an account?</Text>
           <TouchableOpacity>
-            <Text onPress={toggleOverlay} style={{ color: '#4ecca3', fontSize: 20 }}>
+            <Text
+              onPress={toggleOverlay}
+              style={{ color: '#4ecca3', fontSize: 20 }}
+            >
               {' '}
               Sign Up
             </Text>

@@ -9,7 +9,7 @@ import {
 // I have kept this initial state an object so when in future we want to add more stuff we can easily do in object
 const initialState = {
   allevents: [],
-  loading: true,
+  alleventsloading: true,
 };
 
 export default (state = initialState, action) => {
@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
       return {
         // ...state,
         allevents: [...payload],
-        loading: false,
+        alleventsloading: false,
       };
     case ADDEVENT_SUCCESS:
       // We don't have to deal with data because its automatically saving data in profile
