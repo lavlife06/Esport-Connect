@@ -36,6 +36,8 @@ const Event = ({ navigation }) => {
           backdropColor="#3e3f42"
           animationIn='fadeInUp'
           animationOut='fadeOutDown'
+          onSwipeComplete={()=>setModalOpen(false)}
+          swipeDirection={['up', 'left', 'right', 'down']}
           animationInTiming={200}
           animationOutTiming={200}
           backdropTransitionInTiming={400}

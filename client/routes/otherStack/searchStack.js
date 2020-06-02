@@ -13,9 +13,7 @@ const SearchStack = () => {
         name="Search"
         options={({ navigation, route }) => ({
           headerTitle: () => (
-            <Header navigation={navigation} title="Search" type="Search" />
-            // Here i have have used type to help header understand how to change its components
-            // according to the active screen
+            <Header navigation={navigation} title='Search' type="Search" />
           ),
         })}
         component={Search}
@@ -38,3 +36,4 @@ const SearchStack = () => {
 };
 
 export default SearchStack;
+

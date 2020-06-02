@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import TabStack from './tabStack';
-import SettingStack from './otherStack/settingStack';
+import AboutStack from './otherStack/aboutStack';
 import { Button, Avatar } from 'react-native-elements';
 import { StyleSheet, View, Text, useWindowDimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -32,45 +32,29 @@ const LogoutContentComponent = (props) => {
           }}
           icon={() => {
             return (
-              <View>
-                <View
-                  style={{
-                    margin: 0,
-                    flexDirection: 'row',
-                    alignItems: 'center',
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  marginLeft: 40
+                }}
+              >
+                <Avatar
+                  size={50}
+                  rounded
+                  overlayContainerStyle={{ backgroundColor: 'black' }}
+                  icon={{ name: 'user', type: 'font-awesome-5' }}
+                  // onPress={() => console.log('Works!')}
+                  activeOpacity={1}
+                  containerStyle={{
+                    margin: 5,
                   }}
-                >
-                  <View style={{ alignItems: 'center' }}>
-                    <Avatar
-                      size={50}
-                      rounded
-                      overlayContainerStyle={{ backgroundColor: 'black' }}
-                      icon={{ name: 'user', type: 'font-awesome-5' }}
-                      // onPress={() => console.log('Works!')}
-                      activeOpacity={1}
-                      containerStyle={{
-                        margin: 5,
-                        // position: 'absolute',
-                      }}
-                    />
-
-                    <Text style={{ fontSize: 17 }}>
-                      {myprofileinfo.myprofile.name || 'Your name here'}
-                    </Text>
-                  </View>
-                  <Text style={{ margin: 5 }}>
-                    Followers:
-                    {myprofileinfo.myprofile.followers
-                      ? myprofileinfo.myprofile.followers.length
-                      : 0}
-                  </Text>
-                  <Text style={{ margin: 5 }}>
-                    Following:
-                    {myprofileinfo.myprofile.following
-                      ? myprofileinfo.myprofile.following.length
-                      : 0}
-                  </Text>
-                </View>
+                />
+                <Text style={{ fontSize: 17, paddingLeft: 4 }}>
+                  {myprofileinfo.myprofile.name || ''}
+                </Text>
               </View>
             );
           }}
@@ -118,12 +102,7 @@ export default function DrawerStack() {
         drawerContent={(props) => <LogoutContentComponent {...props} />}
       >
         <Drawer.Screen name="Home" component={TabStack} />
-        <Drawer.Screen name="Setting" component={SettingStack} />
-        <Drawer.Screen
-          name="Profile"
-          component={Profile}
-          options={{ drawerLabel: () => null }}
-        />
+        <Drawer.Screen name="About" component={AboutStack} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

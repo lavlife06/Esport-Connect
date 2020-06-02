@@ -1,23 +1,23 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Setting from '../../screens/setting';
+import About from '../../screens/about';
 import Header from '../../shared/header';
 
 const Stack = createStackNavigator()
 
-const SettingStack = () => {
+const AboutStack = () => {
 
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Setting'
+        name='About'
         options={({ navigation, route }) => ({
-          headerTitle: () => <Header navigation={navigation} title='Setting'/>,
+          headerTitle: () => <Header navigation={navigation} title='About'/>,
         })}
-        component={Setting}
+        component={About}
       />
     </Stack.Navigator>
   );
 }
  
-export default SettingStack;
+export default AboutStack;
