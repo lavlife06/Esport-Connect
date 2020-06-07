@@ -10,9 +10,10 @@ import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function TabStack() {
+  
   const showTabIcons = (route, focused, color, size) => {
     if (route.name === 'Home') {
       return (
@@ -46,7 +47,6 @@ export default function TabStack() {
   };
 
   return (
-    // <NavigationContainer>
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) =>
@@ -64,6 +64,5 @@ export default function TabStack() {
       <Tab.Screen name="Event" component={EventStack} />
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
-    // </NavigationContainer>
   );
 }
