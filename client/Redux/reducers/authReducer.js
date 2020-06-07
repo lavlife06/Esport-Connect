@@ -34,7 +34,6 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        isAuthenticated: true,
       };
     case GOOGLE_LOGIN:
       return {
