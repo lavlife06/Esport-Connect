@@ -14,7 +14,7 @@ import { AsyncStorage } from 'react-native';
 
 const initialState = {
   token: null,
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: true,
   user: null,
 };

@@ -2,12 +2,20 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getProfiles } from '../Redux/actions/profile';
 import { StyleSheet, View ,TextInput} from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input, Icon } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [inputsearch, setInputSearch] = useState('');
+  const [showCancelBtn, setShowCancelBtn] = useState(false)
+
+  const handleCancel = () => {
+    setInputSearch(''); 
+    dispatch(getProfiles(''));
+    setShowCancelBtn(false)
+  }
+
   return (
     <View style={styles.searchSection}>
       <AntDesign name="search1" style={styles.searchIcon} size={24} color="black" />
@@ -17,9 +25,15 @@ const SearchBar = () => {
         onChangeText={(val) => {
           setInputSearch(val);
           dispatch(getProfiles(val));
+          if(inputsearch.length > 0){
+            setShowCancelBtn(true)
+          }
         }}
         value={inputsearch}
       />
+      {showCancelBtn && 
+        <Icon onPress={handleCancel} name="clear" style={styles.searchIcon} size={24} color="black" />
+      }
     </View>
   );
 }

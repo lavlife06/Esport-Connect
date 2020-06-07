@@ -20,29 +20,20 @@ const Home = () => {
   const allevents = eventinfo.allevents;
   let loading = eventinfo.alleventsloading;
 
-  // useEffect(() => {
-  //   // let token;
-  //   // const userLoad = async () => {
-  //   //   const token = await AsyncStorage.getItem('token');
-  //   //   setAuthToken(token);
-  //   //   // if (!isAuthenticated) {
-  //   //   //   // This isAuthenticated says that user didnt logout and now he directly enters home page
-  //   //   //   // because of his token stored in phone and that why we need loadUser() to get back his information
-  //   //   //   dispatch(loadUser());
-  //   //   //   console.log('loadUser from home triggreed');
-  //   //   // }
-  //   //   console.log('Home Page refreshed');
-  //   // };
-  //   // userLoad();
-  //   // if (token !== null) {
-  // dispatch(getAllPosts());
-  //   // console.log('token verified by getallposts');
-  //   // } else {
-  //   //   console.log(
-  //   //     'No token found and that why error from home page getallposts, userload and getcurrentprofile'
-  //   //   );
-  //   // }
-  // }, [getAllPosts]);
+  useEffect(() => {
+    const userLoad = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        dispatch(fetchallevents());
+        console.log('token verified by fetchallevents');
+        dispatch(getCurrentProfile());
+        console.log('token verified by getcurrentprofile set at home');
+      }
+      console.log('Home Page refreshed');
+    };
+    userLoad();
+    dispatch({ type: CLEAR_PROFILES });
+  }, [loadUser, fetchallevents]);
 
   if (loading) {
     return <Loading />;
