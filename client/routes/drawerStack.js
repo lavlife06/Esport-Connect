@@ -14,44 +14,80 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/actions/auth';
 import Profile from '../routes/otherStack/profileStack';
+import Loading from '../shared/loading';
 
 const Drawer = createDrawerNavigator();
 
 const LogoutContentComponent = (props) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.myprofileloading;
-
-  //   if (loading) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        style={{ marginHorizontal: 70 }}
-        label=""
-        onPress={() => {
-          props.navigation.navigate('Home');
-        }}
-        icon={() => (
-          <Button
-            icon={
-              <AntDesign
-                name="logout"
-                style={{ marginHorizontal: 5 }}
-                size={24}
-                color="white"
-              />
-            }
-            buttonStyle={{ padding: 10 }}
-            title="Sign Out"
-            onPress={() => {
-              dispatch(logout());
-            }}
-          />
-        )}
-      />
-    </DrawerContentScrollView>
-  );
+  const { user, loading } = useSelector((state) => state.auth);
+  const myprofileloading = myprofileinfo.myprofileloading;
+  if (!user && myprofileloading) {
+    console.log('DrawerStack loading is happening');
+    return <Loading />;
+  } else {
+    return (
+      <DrawerContentScrollView {...props}>
+        <DrawerItem
+          label=""
+          icon={() => {
+            return (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  marginLeft: 40,
+                }}
+              >
+                <Avatar
+                  size={50}
+                  rounded
+                  overlayContainerStyle={{ backgroundColor: 'black' }}
+                  icon={{ name: 'user', type: 'font-awesome-5' }}
+                  // onPress={() => console.log('Works!')}
+                  activeOpacity={1}
+                  containerStyle={{
+                    margin: 5,
+                  }}
+                />
+                <Text style={{ fontSize: 17, paddingLeft: 4 }}>
+                  {myprofileinfo.myprofile.name || ''}
+                </Text>
+              </View>
+            );
+          }}
+        />
+        <DrawerItemList {...props} />
+        <DrawerItem
+          style={{ marginHorizontal: 70 }}
+          label=""
+          onPress={() => {
+            props.navigation.navigate('Home');
+          }}
+          icon={() => (
+            <Button
+              icon={
+                <AntDesign
+                  name="logout"
+                  style={{ marginHorizontal: 5 }}
+                  size={24}
+                  color="white"
+                />
+              }
+              buttonStyle={{ padding: 10 }}
+              title="Sign Out"
+              onPress={() => {
+                dispatch(logout());
+              }}
+            />
+          )}
+        />
+      </DrawerContentScrollView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -72,36 +108,3 @@ export default function DrawerStack() {
     </NavigationContainer>
   );
 }
-{
-  /* <DrawerItem */
-}
-//           label=""
-//           icon={() => {
-//             return (
-//               <View
-//                 style={{
-//                   flexDirection: 'row',
-//                   justifyContent: 'center',
-//                   alignItems: 'center',
-//                   flex: 1,
-//                   marginLeft: 40,
-//                 }}
-//               >
-//                 <Avatar
-//                   size={50}
-//                   rounded
-//                   overlayContainerStyle={{ backgroundColor: 'black' }}
-//                   icon={{ name: 'user', type: 'font-awesome-5' }}
-//                   // onPress={() => console.log('Works!')}
-//                   activeOpacity={1}
-//                   containerStyle={{
-//                     margin: 5,
-//                   }}
-//                 />
-//                 <Text style={{ fontSize: 17, paddingLeft: 4 }}>
-//                   {myprofileinfo.myprofile.name || ''}
-//                 </Text>
-//               </View>
-//             );
-//           }}
-//         />

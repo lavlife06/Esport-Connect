@@ -12,10 +12,8 @@ import Posts from './postHandling/posts';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const eventinfo = useSelector((state) => state.event);
   const globalposts = useSelector((state) => state.post.globalposts);
-  const allevents = eventinfo.allevents;
-  let loading = eventinfo.alleventsloading;
+  const { user, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const userLoad = async () => {
@@ -30,7 +28,8 @@ const Home = () => {
     userLoad();
   }, [getAllPosts]);
 
-  if (loading) {
+  if (loading && !user && globalposts.length <= 0) {
+    console.log('Homepage loading is happening');
     return <Loading />;
   } else {
     return (
