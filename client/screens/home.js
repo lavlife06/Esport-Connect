@@ -9,37 +9,45 @@ import Loading from '../shared/loading';
 import { getCurrentProfile } from '../Redux/actions/profile';
 import { getAllPosts } from '../Redux/actions/post';
 import Posts from './postHandling/posts';
+import { fetchallevents } from '../Redux/actions/event';
+import Events from './EventHandling/events';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const eventinfo = useSelector((state) => state.event);
-  const globalposts = useSelector((state) => state.post.globalposts);
+  const {eventinfo, globalposts} = useSelector((state) => ({
+    eventinfo: state.event,
+    globalposts: state.post.globalposts
+  }));
   const allevents = eventinfo.allevents;
   let loading = eventinfo.alleventsloading;
 
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
-      if (token !== null) {
-        setAuthToken(token);
+      if (token) {
         dispatch(getAllPosts());
-        console.log('token verified by getallposts');
+        // console.log('token verified by fetchallevents');
+        dispatch(getCurrentProfile());
+        // console.log('token verified by getcurrentprofile set at home');
       }
       console.log('Home Page refreshed');
     };
-    userLoad();
-  }, [getAllPosts]);
+    // userLoad();
+
+  }, [loadUser, getAllPosts]);
 
   if (loading) {
     return <Loading />;
   } else {
     return (
       <View>
-        <FlatList
-          data={globalposts}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <Posts item={[item]} />}
-        />
+        {allevents && (
+          <FlatList
+            data={globalposts}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <Posts item={[item]} />}
+          />
+        )}
       </View>
     );
   }

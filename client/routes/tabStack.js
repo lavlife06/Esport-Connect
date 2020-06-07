@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,7 +8,7 @@ import EventStack from './otherStack/eventStack';
 import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
-
+import { TabBar } from "react-native-animated-nav-tab-bar";
 const Tab = createBottomTabNavigator();
 
 export default function TabStack() {
@@ -52,8 +51,12 @@ export default function TabStack() {
         tabBarIcon: ({ focused, color, size }) =>
           showTabIcons(route, focused, color, size),
       })}
-      activeColor="#4ecca3"
-      barStyle={{ backgroundColor: '#fff' }}
+      
+      tabBar={props => (
+      <TabBar
+        {...props}
+      />
+    )}
       tabBarOptions={{
         activeTintColor: '#4ecca3',
         inactiveTintColor: 'gray',

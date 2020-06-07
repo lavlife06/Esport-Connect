@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
       console.log('GETGLOBALPOSTS-SUCCESSFULL');
       return {
         ...state,
-        globalposts: payload,
+        globalposts: [...payload],
         globalpostsloading: false,
       };
     case CLEARGLOBALPOSTS:

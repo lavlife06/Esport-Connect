@@ -17,7 +17,7 @@ export const getAllPosts = () => async (dispatch) => {
   try {
     dispatch(loading(true));
     const res = await axios.get(`http://${ipAddress}:3000/api/post/allposts`);
-
+    
     dispatch({
       type: GETGLOBALPOSTS,
       payload: res.data,
@@ -47,7 +47,7 @@ export const deletePost = () => async (dispatch) => {
       payload: res.data,
     });
 
-    console.log('register succes');
+    console.log('delete succes');
 
     dispatch(loadUser());
 

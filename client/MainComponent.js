@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AppLoading } from 'expo';
 import { ThemeProvider } from 'react-native-elements';
 import { theme } from './styles/theme';
-import { View, Platform ,KeyboardAvoidingView } from 'react-native';
+import { View } from 'react-native';
 import AuthStack from './routes/authStack';
 import { globalStyles } from './styles/global';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,7 +12,6 @@ import { AsyncStorage } from 'react-native';
 import setAuthToken from './Redux/setAuthToken';
 import { loadUser } from './Redux/actions/auth';
 import Loading from './shared/loading';
-import { fetchallevents } from './Redux/actions/event';
 
 const MainComponent = () => {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const MainComponent = () => {
   }));
   const isAuthenticated = auth.isAuthenticated;
   const [isReady, setIsReady] = useState(true);
-  console.log("AUTH************: ",isAuthenticated)
+  // console.log("AUTH************: ",isAuthenticated)
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
