@@ -20,11 +20,46 @@ const Drawer = createDrawerNavigator();
 const LogoutContentComponent = (props) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.myprofileloading;
+  const loading = myprofileinfo.loading;
 
-  //   if (loading) {
   return (
     <DrawerContentScrollView {...props}>
+      {!loading && (
+        <DrawerItem
+          label=""
+          onPress={() => {
+            props.navigation.navigate('Profile');
+          }}
+          icon={() => {
+            return (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  marginLeft: 40
+                }}
+              >
+                <Avatar
+                  size={50}
+                  rounded
+                  overlayContainerStyle={{ backgroundColor: 'black' }}
+                  icon={{ name: 'user', type: 'font-awesome-5' }}
+                  // onPress={() => console.log('Works!')}
+                  activeOpacity={1}
+                  containerStyle={{
+                    margin: 5,
+                  }}
+                />
+                <Text style={{ fontSize: 17, paddingLeft: 4 }}>
+                  {myprofileinfo.myprofile.name || ''}
+                </Text>
+              </View>
+            );
+          }}
+        />
+      )}
       <DrawerItemList {...props} />
       <DrawerItem
         style={{ marginHorizontal: 70 }}
@@ -72,36 +107,3 @@ export default function DrawerStack() {
     </NavigationContainer>
   );
 }
-{
-  /* <DrawerItem */
-}
-//           label=""
-//           icon={() => {
-//             return (
-//               <View
-//                 style={{
-//                   flexDirection: 'row',
-//                   justifyContent: 'center',
-//                   alignItems: 'center',
-//                   flex: 1,
-//                   marginLeft: 40,
-//                 }}
-//               >
-//                 <Avatar
-//                   size={50}
-//                   rounded
-//                   overlayContainerStyle={{ backgroundColor: 'black' }}
-//                   icon={{ name: 'user', type: 'font-awesome-5' }}
-//                   // onPress={() => console.log('Works!')}
-//                   activeOpacity={1}
-//                   containerStyle={{
-//                     margin: 5,
-//                   }}
-//                 />
-//                 <Text style={{ fontSize: 17, paddingLeft: 4 }}>
-//                   {myprofileinfo.myprofile.name || ''}
-//                 </Text>
-//               </View>
-//             );
-//           }}
-//         />

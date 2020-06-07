@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   globalposts: [],
-  globalpostsloading: true,
+  loading: true,
   // error: null,
 };
 
@@ -20,13 +20,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         globalposts: [...payload],
-        globalpostsloading: false,
+        loading: false,
       };
     case CLEARGLOBALPOSTS:
       return {
         ...state,
         globalposts: [],
-        globalpostsloading: false,
+        loading: false,
       };
     default:
       return state;

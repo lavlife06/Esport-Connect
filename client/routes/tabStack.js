@@ -8,7 +8,7 @@ import EventStack from './otherStack/eventStack';
 import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
-import { TabBar } from "react-native-animated-nav-tab-bar";
+
 const Tab = createBottomTabNavigator();
 
 export default function TabStack() {
@@ -51,12 +51,7 @@ export default function TabStack() {
         tabBarIcon: ({ focused, color, size }) =>
           showTabIcons(route, focused, color, size),
       })}
-      
-      tabBar={props => (
-      <TabBar
-        {...props}
-      />
-    )}
+
       tabBarOptions={{
         activeTintColor: '#4ecca3',
         inactiveTintColor: 'gray',

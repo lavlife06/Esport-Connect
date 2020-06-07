@@ -21,7 +21,7 @@ import { loading } from './loading';
 //  Load User
 export const loadUser = () => async (dispatch) => {
   // set header
-  // dispatch(loading(true))
+  dispatch(loading(true))
   const token = await AsyncStorage.getItem('token');
   if (token !== null) {
     setAuthToken(token);
@@ -154,7 +154,7 @@ export const logout = () => async (dispatch) => {
 
   dispatch({ type: CLEAR_MYPROFILE });
   dispatch({ type: CLEAR_PROFILES });
-  dispatch({ type: LOGOUT });
   dispatch({ type: CLEAR_EVENTS });
+  dispatch({ type: LOGOUT });
   dispatch(loading(false));
 };
