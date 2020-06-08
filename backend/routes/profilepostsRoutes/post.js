@@ -84,6 +84,7 @@ module.exports = (app) => {
         date: -1,
       });
       res.json(posts);
+      // console.log(posts)
     } catch (err) {
       console.error(err.message);
 
@@ -101,7 +102,7 @@ module.exports = (app) => {
       if (!myprofile) {
         return res.status(400).json({
           errors: [
-            { msg: 'Sorry ur profile was not found so u cant delete post' },
+            { msg: 'Sorry your profile was not found so you cant delete post' },
           ],
         });
       }

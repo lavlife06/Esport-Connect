@@ -12,24 +12,27 @@ import Posts from './postHandling/posts';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const globalposts = useSelector((state) => state.post.globalposts);
-  const { user, loading } = useSelector((state) => state.auth);
+  const {globalposts, loading}= useSelector((state) => ({
+    globalposts: state.post.globalposts,
+    loading: state.post.loading
+  }));
+
 
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
-      if (token !== null) {
+      if (token) {
         setAuthToken(token);
         dispatch(getAllPosts());
         console.log('token verified by getallposts');
+        dispatch(getCurrentProfile())
       }
       console.log('Home Page refreshed');
     };
     userLoad();
   }, [getAllPosts]);
-
-  if (loading && !user && globalposts.length <= 0) {
-    console.log('Homepage loading is happening');
+  
+  if (loading) {
     return <Loading />;
   } else {
     console.log(globalposts);
