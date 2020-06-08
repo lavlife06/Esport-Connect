@@ -20,7 +20,7 @@ const MainComponent = () => {
   const auth = useSelector((state) => state.auth);
   const isAuthenticated = auth.isAuthenticated;
   const [isReady, setIsReady] = useState(true);
-  console.log('AUTH************: ', isAuthenticated);
+  // console.log('AUTH************: ', isAuthenticated);
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');

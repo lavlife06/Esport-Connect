@@ -23,15 +23,11 @@ const LogoutContentComponent = (props) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
   const myprofileloading = myprofileinfo.myprofileloading;
-  const user = useSelector((state) => state.auth.user);
 
-  if (!myprofileinfo.myprofile || !user) {
+  if (!myprofileinfo.myprofile) {
     console.log('DrawerStack loading is happening');
     if (!myprofileinfo.myprofile) {
       dispatch(getCurrentProfile());
-    }
-    if (!user) {
-      dispatch(loadUser());
     }
     return <Loading />;
   } else {

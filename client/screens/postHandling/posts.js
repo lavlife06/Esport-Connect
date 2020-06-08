@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text, Card, Button, Icon, Avatar } from 'react-native-elements';
 
 const Posts = ({ item }) => {
+  const [like, setlike] = useState(false);
+
   return (
     <View
       style={{
@@ -12,6 +14,7 @@ const Posts = ({ item }) => {
         borderBottomColor: 'gray',
         padding: 2,
         marginBottom: 5,
+        marginHorizontal: 1,
       }}
     >
       <View style={{ flexDirection: 'row', marginVertical: 4 }}>
@@ -45,10 +48,38 @@ const Posts = ({ item }) => {
           marginVertical: 1,
         }}
       ></View>
-      <View>
-        <View></View>
-        <View></View>
-        <View></View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon
+            size={27}
+            name="favorite-border"
+            type="material"
+            containerStyle={{ width: 30 }}
+            color={like ? 'red' : 'black'}
+            onPress={() => {
+              setlike(!like);
+            }}
+          />
+          <Text style={{ fontSize: 15 }}>Like</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon
+            name="comment"
+            type="material"
+            containerStyle={{ width: 30 }}
+            onPress={() => console.log('hello')}
+          />
+          <Text style={{ fontSize: 15 }}>Comment</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon
+            name="share"
+            type="material"
+            containerStyle={{ width: 30 }}
+            onPress={() => console.log('hello')}
+          />
+          <Text style={{ fontSize: 15 }}>Share</Text>
+        </View>
       </View>
     </View>
   );

@@ -14,7 +14,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const globalposts = useSelector((state) => state.post.globalposts);
   const myprofile = useSelector((state) => state.profile.myprofile);
-  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const userLoad = async () => {
@@ -25,21 +24,10 @@ const Home = () => {
       console.log('Home Page refreshed');
     };
     userLoad();
-    if (!myprofile) {
-      dispatch(getCurrentProfile());
-    }
-
-    // This is for once to verify that if still user is not loaded then plz load it
-    if (user) {
-      dispatch(getAllPosts());
-      console.log('token verified by getallposts');
-    } else {
-      dispatch(loadUser());
-      dispatch(getAllPosts());
-    }
+    dispatch(getAllPosts());
   }, [getAllPosts]);
 
-  if (globalposts.length <= 0 || !user || !myprofile) {
+  if (globalposts.length <= 0 || !myprofile) {
     return <Loading />;
   } else {
     return (
