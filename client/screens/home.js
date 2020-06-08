@@ -5,37 +5,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadUser, logout } from '../Redux/actions/auth';
 import { AsyncStorage } from 'react-native';
 import setAuthToken from '../Redux/setAuthToken';
-import Loading from '../shared/loading';
 import { getCurrentProfile } from '../Redux/actions/profile';
 import { getAllPosts } from '../Redux/actions/post';
 import Posts from './postHandling/posts';
+import Loading from '../shared/loading';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {globalposts, loading}= useSelector((state) => ({
-    globalposts: state.post.globalposts,
-    loading: state.post.loading
-  }));
-
+  const globalposts = useSelector((state) => state.post.globalposts);
+  const myprofile = useSelector((state) => state.profile.myprofile);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token) {
         setAuthToken(token);
-        dispatch(getAllPosts());
-        console.log('token verified by getallposts');
-        dispatch(getCurrentProfile())
       }
       console.log('Home Page refreshed');
     };
     userLoad();
+    if (!myprofile) {
+      dispatch(getCurrentProfile());
+    }
+
+    // This is for once to verify that if still user is not loaded then plz load it
+    if (user) {
+      dispatch(getAllPosts());
+      console.log('token verified by getallposts');
+    } else {
+      dispatch(loadUser());
+      dispatch(getAllPosts());
+    }
   }, [getAllPosts]);
-  
-  if (loading) {
+
+  if (globalposts.length <= 0 || !user || !myprofile) {
     return <Loading />;
   } else {
-    console.log(globalposts);
     return (
       <View>
         <FlatList

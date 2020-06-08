@@ -12,24 +12,33 @@ import { Button, Avatar } from 'react-native-elements';
 import { StyleSheet, View, Text, useWindowDimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../Redux/actions/auth';
+import { logout, loadUser } from '../Redux/actions/auth';
 import Profile from '../routes/otherStack/profileStack';
+import Loading from '../shared/loading';
+import { getCurrentProfile } from '../Redux/actions/profile';
 
 const Drawer = createDrawerNavigator();
 
 const LogoutContentComponent = (props) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.loading;
+  const myprofileloading = myprofileinfo.myprofileloading;
+  const user = useSelector((state) => state.auth.user);
 
-  return (
-    <DrawerContentScrollView {...props}>
-      {!loading && (
+  if (!myprofileinfo.myprofile || !user) {
+    console.log('DrawerStack loading is happening');
+    if (!myprofileinfo.myprofile) {
+      dispatch(getCurrentProfile());
+    }
+    if (!user) {
+      dispatch(loadUser());
+    }
+    return <Loading />;
+  } else {
+    return (
+      <DrawerContentScrollView {...props}>
         <DrawerItem
           label=""
-          onPress={() => {
-            props.navigation.navigate('Profile');
-          }}
           icon={() => {
             return (
               <View
@@ -38,7 +47,7 @@ const LogoutContentComponent = (props) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   flex: 1,
-                  marginLeft: 40
+                  marginLeft: 40,
                 }}
               >
                 <Avatar
@@ -59,34 +68,34 @@ const LogoutContentComponent = (props) => {
             );
           }}
         />
-      )}
-      <DrawerItemList {...props} />
-      <DrawerItem
-        style={{ marginHorizontal: 70 }}
-        label=""
-        onPress={() => {
-          props.navigation.navigate('Home');
-        }}
-        icon={() => (
-          <Button
-            icon={
-              <AntDesign
-                name="logout"
-                style={{ marginHorizontal: 5 }}
-                size={24}
-                color="white"
-              />
-            }
-            buttonStyle={{ padding: 10 }}
-            title="Sign Out"
-            onPress={() => {
-              dispatch(logout());
-            }}
-          />
-        )}
-      />
-    </DrawerContentScrollView>
-  );
+        <DrawerItemList {...props} />
+        <DrawerItem
+          style={{ marginHorizontal: 70 }}
+          label=""
+          onPress={() => {
+            props.navigation.navigate('Home');
+          }}
+          icon={() => (
+            <Button
+              icon={
+                <AntDesign
+                  name="logout"
+                  style={{ marginHorizontal: 5 }}
+                  size={24}
+                  color="white"
+                />
+              }
+              buttonStyle={{ padding: 10 }}
+              title="Sign Out"
+              onPress={() => {
+                dispatch(logout());
+              }}
+            />
+          )}
+        />
+      </DrawerContentScrollView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

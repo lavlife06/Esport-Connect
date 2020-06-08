@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
     case FETCHEVENTS_SUCCESS:
       console.log('FETCHEVENTS-SUCCESSFUL');
       return {
-        // ...state,
         allevents: [...payload],
         loading: false,
       };

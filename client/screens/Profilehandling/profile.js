@@ -17,20 +17,13 @@ import { getCurrentProfile } from '../../Redux/actions/profile';
 const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.myprofileloading;
   const { followers, following, bio, name, myevents } = myprofileinfo.myprofile;
 
   // Setting the visibility of Modal
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (!myprofileinfo.myprofile) {
-      dispatch(getCurrentProfile());
-      console.log('getCurrentProfile triggerred from profile screen');
-    }
-  }, [getCurrentProfile]);
-
-  if (loading) {
+  if (!myprofileinfo.myprofile) {
+    dispatch(getCurrentProfile());
     return <Loading />;
   } else {
     return (

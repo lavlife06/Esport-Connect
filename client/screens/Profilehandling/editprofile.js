@@ -16,16 +16,10 @@ const profileSchema = yup.object({
 const Editprofile = ({ setModalOpen }) => {
   const dispatch = useDispatch();
   const myprofileinfo = useSelector((state) => state.profile);
-  const loading = myprofileinfo.loading;
   const { bio, name } = myprofileinfo.myprofile;
 
-  useEffect(() => {
-    if (!myprofileinfo) {
-      dispatch(getCurrentProfile());
-    }
-  }, [myprofileinfo, getCurrentProfile]);
-
-  if (!myprofileinfo) {
+  if (!myprofileloading.myprofile) {
+    dispatch(getCurrentProfile());
     return <Loading />;
   } else {
     return (
