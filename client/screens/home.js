@@ -32,6 +32,7 @@ const Home = () => {
     console.log('Homepage loading is happening');
     return <Loading />;
   } else {
+    console.log(globalposts);
     return (
       <View>
         <FlatList
