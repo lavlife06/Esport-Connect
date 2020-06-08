@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AppLoading } from 'expo';
 import { ThemeProvider } from 'react-native-elements';
 import { theme } from './styles/theme';
-import { View, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Platform ,KeyboardAvoidingView } from 'react-native';
 import AuthStack from './routes/authStack';
 import { globalStyles } from './styles/global';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,30 +18,35 @@ const MainComponent = () => {
   const dispatch = useDispatch();
   const { auth, loading } = useSelector((state) => ({
     auth: state.auth,
-    loading: state.auth.loading,
+    loading: state.loading,
   }));
   const isAuthenticated = auth.isAuthenticated;
   const [isReady, setIsReady] = useState(true);
-  console.log('AUTH************: ', isAuthenticated);
+  console.log("AUTH************: ",isAuthenticated);
   useEffect(() => {
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       setAuthToken(token);
       dispatch(loadUser());
+      // await AsyncStorage.removeItem('token');
     };
     userLoad();
-    console.log('Maincomponent page refreshed');
   }, []);
 
   if (!isReady) {
-    console.log('Apploading at Maincomponent');
     return <AppLoading />;
   } else {
     return (
       <ThemeProvider theme={theme}>
         <View style={globalStyles.container}>
           <Alert />
-          {!isAuthenticated ? <AuthStack /> : <DrawerStack />}
+          {loading ? (
+             <Loading/> 
+          ) :  !isAuthenticated ? (
+            <AuthStack />
+          ) : (
+            <DrawerStack />
+          )}
         </View>
       </ThemeProvider>
     );

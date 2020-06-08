@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   globalposts: [],
-  globalpostsloading: true,
+  loading: true,
   // error: null,
 };
 
@@ -19,14 +19,14 @@ export default (state = initialState, action) => {
       console.log('GETGLOBALPOSTS-SUCCESSFULL');
       return {
         ...state,
-        globalposts: payload,
-        globalpostsloading: false,
+        globalposts: [...payload],
+        loading: false,
       };
     case CLEARGLOBALPOSTS:
       return {
         ...state,
         globalposts: [],
-        globalpostsloading: false,
+        loading: false,
       };
     default:
       return state;
