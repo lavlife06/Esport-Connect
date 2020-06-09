@@ -51,6 +51,7 @@ module.exports = (app) => {
         let payload = {
           user: {
             id: user._id,
+            name: user.name,
           },
         };
         // 25200 means 7 hours one user can be online with the given token

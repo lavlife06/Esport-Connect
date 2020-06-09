@@ -3,11 +3,14 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
+  LIKEDSUCCESS,
+  UNLIKEDSUCCESS,
 } from '../actions/types';
 
 const initialState = {
   globalposts: [],
   loading: true,
+  action: '',
   // error: null,
 };
 

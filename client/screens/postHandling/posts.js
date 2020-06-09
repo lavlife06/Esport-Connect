@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Text, Card, Button, Icon, Avatar } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
+import { likeHandler } from '../../Redux/actions/post';
 
 const Posts = ({ item }) => {
   const [like, setlike] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.profile.myprofile.user);
+
+  useEffect(() => {
+    if (
+      item[0].likes.filter((like) => like.user === user).length > 0 &&
+      !like
+    ) {
+      setlike(true);
+    } else {
+      setlike(false);
+    }
+  }, []);
 
   return (
     <View
@@ -57,6 +72,7 @@ const Posts = ({ item }) => {
             containerStyle={{ width: 30 }}
             color={like ? 'red' : 'black'}
             onPress={() => {
+              dispatch(likeHandler(item[0]._id));
               setlike(!like);
             }}
           />

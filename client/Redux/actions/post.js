@@ -3,6 +3,8 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
+  LIKEDSUCCESS,
+  UNLIKEDSUCCESS,
 } from './types';
 import axios from 'axios';
 import { ipAddress } from '../ipaddress';
@@ -13,7 +15,7 @@ import { setAlert } from './alert';
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get(`http://${ipAddress}:3000/api/post/allposts`);
-    
+
     dispatch({
       type: GETGLOBALPOSTS,
       payload: res.data,
@@ -22,6 +24,17 @@ export const getAllPosts = () => async (dispatch) => {
     dispatch({
       type: CLEARGLOBALPOSTS,
     });
+  }
+};
+
+//  Like handling of posts
+export const likeHandler = (post_id) => async (dispatch) => {
+  try {
+    const res = await axios.put(
+      `http://${ipAddress}:3000/api/post/likehandling/${post_id}`
+    );
+  } catch (err) {
+    console.error('likeHandler error');
   }
 };
 
@@ -42,8 +55,6 @@ export const deletePost = () => async (dispatch) => {
     console.log('delete succes');
 
     dispatch(loadUser());
-
-
   } catch (err) {
     const errors = err.response.data.errors;
     // this errors are the errors send form the backend

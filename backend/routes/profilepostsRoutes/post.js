@@ -21,19 +21,9 @@ module.exports = (app) => {
       }
 
       try {
-        let myprofile = await Profile.findOne({ user: req.user.id });
-
-        if (!myprofile) {
-          return res.status(400).json({
-            errors: [
-              { msg: 'Sorry ur profile was not found so u cant add post' },
-            ],
-          });
-        }
-
         let postitems = {
           user: req.user.id,
-          name: myprofile.name,
+          name: req.user.name,
           text: req.body.text,
         };
 
@@ -47,27 +37,7 @@ module.exports = (app) => {
           });
         }
 
-        console.log(postsuccess);
-        console.log(post);
-
-        myprofile.myposts.push({
-          user: req.user.id,
-          name: myprofile.name,
-          text: req.body.text,
-          postid: postsuccess.id,
-        });
-
-        await myprofile.save();
-
-        if (!myprofile) {
-          return res.json({
-            errors: [
-              { msg: 'Sorry ur post was not saved in your yourprofile' },
-            ],
-          });
-        }
-
-        res.json(myprofile.myposts);
+        res.json(postsuccess);
       } catch (err) {
         res.status(500).send('Server Error');
         console.error(err.message);
@@ -75,8 +45,8 @@ module.exports = (app) => {
     }
   );
 
-  // @route    GET api/posts/allposts/:user_id
-  // @desc     Get all posts of a particular person
+  // @route    GET api/posts/allposts
+  // @desc     Get all posts of
   // @access   private
   app.get('/api/post/allposts', verify, async (req, res) => {
     try {
@@ -88,6 +58,22 @@ module.exports = (app) => {
     } catch (err) {
       console.error(err.message);
 
+      res.status(500).send('Server Error');
+    }
+  });
+
+  // @route    GET api/posts/myallposts
+  // @desc     Get all posts of a particular person
+  // @access   private
+  app.get('/api/post/myallposts', verify, async (req, res) => {
+    try {
+      const posts = await Post.find({ user: req.user.id }).sort({
+        date: -1,
+      });
+      res.json(posts);
+      // console.log(posts)
+    } catch (err) {
+      console.error(err.message);
       res.status(500).send('Server Error');
     }
   });
@@ -160,59 +146,35 @@ module.exports = (app) => {
   // @route    PUT api/posts/like/:id
   // @desc     Like a post
   // @access   Private
-  app.put(
-    '/api/post/likehandling/:user_id/:post_id',
-    verify,
-    async (req, res) => {
-      try {
-        let post = await Post.findById(req.params.post_id);
-        let user = await User.findById(req.user.id).select('-password');
-        let userprofile = await Profile.findOne({ user: req.params.user_id });
-        //  Userprofile is the profile of the user whose post we are giving likes
+  app.put('/api/post/likehandling/:post_id', verify, async (req, res) => {
+    try {
+      let post = await Post.findById(req.params.post_id);
 
-        // Getting the index of the post to add likes to that exact post
-        const postIndex = userprofile.myposts.findIndex(
-          (item) => item.postid === req.params.post_id
-        );
-
-        // Check if the post has already been liked
-        if (
-          post.likes.filter((like) => like.user.toString() === req.user.id)
-            .length > 0
-        ) {
-          post.likes = post.likes.filter((like) => {
-            like.user.toString() !== req.user.id;
-          });
-
-          // Save in our global post
-          await post.save();
-
-          // // Save in our profile
-          userprofile.myposts[postIndex].likes = post.likes;
-          await userprofile.save();
-
-          return res.json(post.likes);
-        }
-
-        // else
-        post.likes.push({ user: req.user.id, name: user.name });
-
-        userprofile.myposts[postIndex].likes.push({
-          user: req.user.id,
-          name: user.name,
+      // Check if the post has already been liked
+      if (
+        post.likes.filter((like) => like.user.toString() === req.user.id)
+          .length > 0
+      ) {
+        post.likes = post.likes.filter((like) => {
+          like.user.toString() !== req.user.id;
         });
 
-        // Save in global post
+        // Save in our global post
         await post.save();
 
-        // // Save in our profile
-        await userprofile.save();
-
-        res.json(post.likes);
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.json({ added: false });
       }
+
+      // else
+      post.likes.push({ user: req.user.id, name: req.user.name });
+
+      // Save in global post
+      await post.save();
+
+      return res.json({ added: true });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
-  );
+  });
 };
