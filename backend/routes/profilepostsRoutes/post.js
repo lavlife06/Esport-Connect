@@ -162,7 +162,7 @@ module.exports = (app) => {
         // Save in our global post
         await post.save();
 
-        return res.json({ added: false });
+        return res.json(post.likes);
       }
 
       // else
@@ -171,7 +171,7 @@ module.exports = (app) => {
       // Save in global post
       await post.save();
 
-      return res.json({ added: true });
+      return res.json(post.likes);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

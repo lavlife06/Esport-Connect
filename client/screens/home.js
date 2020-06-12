@@ -9,13 +9,23 @@ import { getCurrentProfile } from '../Redux/actions/profile';
 import { getAllPosts } from '../Redux/actions/post';
 import Posts from './postHandling/posts';
 import Loading from '../shared/loading';
+import { socket } from '../MainComponent';
 
 const Home = () => {
   const dispatch = useDispatch();
   const globalposts = useSelector((state) => state.post.globalposts);
   const myprofile = useSelector((state) => state.profile.myprofile);
+  let changedlike = useSelector((state) => state.post.changedlike);
 
   useEffect(() => {
+    if (changedlike) {
+      socket.emit('changelike', changedlike);
+    }
+
+    socket.on('changelike', (data) => {
+      // globalposts.findIndex((post)=>)
+    });
+
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token) {

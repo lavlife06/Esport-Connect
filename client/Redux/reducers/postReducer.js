@@ -5,12 +5,13 @@ import {
   CLEARGLOBALPOSTS,
   LIKEDSUCCESS,
   UNLIKEDSUCCESS,
+  LIKEHANDLESUCCESS,
 } from '../actions/types';
 
 const initialState = {
   globalposts: [],
   loading: true,
-  action: '',
+  changedlike: null,
   // error: null,
 };
 
@@ -29,6 +30,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         globalposts: [],
+        loading: false,
+      };
+    case LIKEHANDLESUCCESS:
+      return {
+        changedlike: payload,
         loading: false,
       };
     default:

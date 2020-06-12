@@ -3,8 +3,8 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
-  LIKEDSUCCESS,
-  UNLIKEDSUCCESS,
+  UPDATELIKES,
+  LIKEHANDLESUCCESS,
 } from './types';
 import axios from 'axios';
 import { ipAddress } from '../ipaddress';
@@ -33,6 +33,7 @@ export const likeHandler = (post_id) => async (dispatch) => {
     const res = await axios.put(
       `http://${ipAddress}:3000/api/post/likehandling/${post_id}`
     );
+    dispatch({ type: LIKEHANDLESUCCESS, payload: res.data });
   } catch (err) {
     console.error('likeHandler error');
   }
