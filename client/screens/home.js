@@ -6,7 +6,11 @@ import { loadUser, logout } from '../Redux/actions/auth';
 import { AsyncStorage } from 'react-native';
 import setAuthToken from '../Redux/setAuthToken';
 import { getCurrentProfile } from '../Redux/actions/profile';
-import { getAllPosts } from '../Redux/actions/post';
+import {
+  getAllPosts,
+  clearChangedlike,
+  changeUIdueTolike,
+} from '../Redux/actions/post';
 import Posts from './postHandling/posts';
 import Loading from '../shared/loading';
 import { socket } from '../MainComponent';
@@ -18,24 +22,31 @@ const Home = () => {
   let changedlike = useSelector((state) => state.post.changedlike);
 
   useEffect(() => {
-    if (changedlike) {
-      socket.emit('changelike', changedlike);
-    }
-
-    socket.on('changelike', (data) => {
-      // globalposts.findIndex((post)=>)
-    });
-
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token) {
         setAuthToken(token);
       }
-      console.log('Home Page refreshed');
     };
     userLoad();
+    console.log('Home Page refreshed');
     dispatch(getAllPosts());
-  }, [getAllPosts]);
+  }, []);
+
+  useEffect(() => {
+    console.log('This useEffect ran due to change in likes');
+    if (changedlike) {
+      socket.emit('changelike', changedlike);
+      console.log('socket.emit got trrigered');
+    }
+
+    dispatch(clearChangedlike());
+  }, [changedlike]);
+
+  socket.on('changelike', (data) => {
+    dispatch(changeUIdueTolike(data));
+    console.log('socket.on got trrigered');
+  });
 
   if (globalposts.length <= 0 || !myprofile) {
     return <Loading />;

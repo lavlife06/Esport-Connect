@@ -3,8 +3,9 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
-  UPDATELIKES,
   LIKEHANDLESUCCESS,
+  CLEARCHANGEDLIKE,
+  CHANGEUIDUETOLIKE,
 } from './types';
 import axios from 'axios';
 import { ipAddress } from '../ipaddress';
@@ -33,10 +34,21 @@ export const likeHandler = (post_id) => async (dispatch) => {
     const res = await axios.put(
       `http://${ipAddress}:3000/api/post/likehandling/${post_id}`
     );
-    dispatch({ type: LIKEHANDLESUCCESS, payload: res.data });
+    dispatch({
+      type: LIKEHANDLESUCCESS,
+      payload: { id: post_id, likes: res.data },
+    });
   } catch (err) {
     console.error('likeHandler error');
   }
+};
+
+export const changeUIdueTolike = (data) => (dispatch) => {
+  dispatch({ type: CHANGEUIDUETOLIKE, payload: data });
+};
+
+export const clearChangedlike = () => (dispatch) => {
+  dispatch({ type: CLEARCHANGEDLIKE });
 };
 
 // Delete my post

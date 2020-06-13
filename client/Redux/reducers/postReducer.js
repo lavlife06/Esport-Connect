@@ -3,9 +3,9 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
-  LIKEDSUCCESS,
-  UNLIKEDSUCCESS,
   LIKEHANDLESUCCESS,
+  CLEARCHANGEDLIKE,
+  CHANGEUIDUETOLIKE,
 } from '../actions/types';
 
 const initialState = {
@@ -33,9 +33,27 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LIKEHANDLESUCCESS:
+      // This will instantly change the like number in our app
       return {
-        changedlike: payload,
+        ...state,
+        changedlike: { id: payload.id, likes: payload.likes },
+        globalposts: state.globalposts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
         loading: false,
+      };
+    case CHANGEUIDUETOLIKE:
+      // This will change the like number in users app when anyone like/unlike post
+      return {
+        ...state,
+        globalposts: state.globalposts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
+      };
+    case CLEARCHANGEDLIKE:
+      return {
+        ...state,
+        changedlike: null,
       };
     default:
       return state;
