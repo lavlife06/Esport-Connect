@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
     io.sockets.emit('hello', data);
   });
 
-  socket.on('changelike', (data) => {
-    socket.broadcast.emit('changelike', data);
-  });
+  // socket.on('changelike', (data) => {
+  //   socket.broadcast.emit('changelike', data);
+  // });
 });

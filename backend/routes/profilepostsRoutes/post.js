@@ -177,4 +177,47 @@ module.exports = (app) => {
       res.status(500).send('Server Error');
     }
   });
+
+  // @route    POST api/post/comment/post_id
+  // @desc     Comment on post
+  // @access   Private
+  app.post('/api/post/comment/:post_id', verify, async (req, res) => {
+    try {
+      let post = await Post.findById(req.params.post_id);
+
+      post.comments.push({
+        user: req.user.id,
+        name: req.user.name,
+        text: req.body.text,
+      });
+
+      // Save in global post
+      await post.save();
+
+      return res.json(post.comments);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+
+  // @route    POST api/post/gertuserpost/post_id
+  // @desc     get that post
+  // @access   Private
+  app.get('/api/post/getuserpost/:post_id', verify, async (req, res) => {
+    try {
+      let post = await Post.findById(req.params.post_id);
+
+      if (!post) {
+        return res.json({
+          errors: [{ msg: 'Sorry that post was not found' }],
+        });
+      }
+
+      return res.json(post);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
 };
